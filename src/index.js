@@ -1,13 +1,15 @@
 import React from "react";
-import { render } from "react-dom";
+import {render} from "react-dom";
 import Datasort from "react-data-sort";
 import tableData from "./data";
+import './App.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 function MyTable() {
     return (
         <Datasort
             data={tableData}
-            defaultSortBy="id"
+            defaultSortBy="singer"
             paginate
             render={({
                          data,
@@ -22,19 +24,19 @@ function MyTable() {
                          pages
                      }) => {
                 return (
-                    <div style={{maxWidth: 500}}>
-                        <table border={1} cellPadding={2} style={{width: '100%'}}>
+                    <div className="wrapper-table container">
+                        <ul>
                             <TableHead
                                 setSortBy={setSortBy}
                                 sortBy={sortBy}
                                 direction={direction}
                                 toggleDirection={toggleDirection}
                             />
-                            <TableBody data={data} />
-                        </table>
+                            <TableBody data={data}/>
+                        </ul>
                         <Flex style={{justifyContent: 'space-between'}}>
-                            <GoToPage goToPage={goToPage} pages={pages} />
-                            <PageIndicator pages={pages} activePage={activePage} />
+                            <GoToPage goToPage={goToPage} pages={pages}/>
+                            <PageIndicator pages={pages} activePage={activePage}/>
                             <Navigation
                                 activePage={activePage}
                                 goToPage={goToPage}
@@ -51,13 +53,14 @@ function MyTable() {
     );
 }
 
-function TableHead({ setSortBy, sortBy, direction, toggleDirection }) {
+function TableHead({setSortBy, sortBy, direction, toggleDirection}) {
     const columns = [
-        { key: "id", title: "ID" },
-        { key: "name", title: "Name" },
-        { key: "email", title: "Email" }
+        {key: "singer", title: "Singer"},
+        {key: "song", title: "Song"},
+        {key: "ganre", title: "Ganre"},
+        {key: "year", title: "Year"}
     ];
-    const items = columns.map(({ key, title }) => {
+    const items = columns.map(({key, title}) => {
         const active = key === sortBy;
         return (
             <HeadToggle
@@ -75,55 +78,60 @@ function TableHead({ setSortBy, sortBy, direction, toggleDirection }) {
         );
     });
     return (
-        <thead>
+        <div>
         <tr>{items}</tr>
-        </thead>
+        </div>
     );
 }
 
-function HeadToggle({ children, active, onClick }) {
+function HeadToggle({children, active, onClick}) {
     return (
         <td
             onClick={onClick}
-            style={{ fontWeight: active ? "bold" : "normal", cursor: "pointer" }}
+            style={{fontWeight: active ? "bold" : "normal", cursor: "pointer"}}
         >
             {children}
         </td>
     );
 }
 
-function TableBody({ data }) {
+function TableBody({data}) {
     return (
-        <tbody>
-        {data.map(({ id, name, email }) => (
-            <tr>
-                <td>{id}</td>
-                <td>{name}</td>
-                <td>{email}</td>
+        <tbody className="tbody col-sm-9">
+        {data.map(({singer, song, ganre, year}) => (
+            <tr className="tr row">
+                <td className="col-3">{singer}</td>
+                <td className="col-3">{song}</td>
+                <td className="col-3">{ganre}</td>
+                <td className="col-3">{year}</td>
             </tr>
         ))}
         </tbody>
     );
 }
 
-function Flex({ children, style }) {
-    return <div style={{ display: "flex", ...style }}>{children}</div>;
+// function Form({children, style}) {
+//     return <div style={{display: "flex", ...style}}>{children}</div>;
+// }
+
+function Flex({children, style}) {
+    return <div style={{display: "flex", ...style}}>{children}</div>;
 }
 
-function GoToPage({ goToPage, pages}) {
+function GoToPage({goToPage, pages}) {
     const options = []
-    for(let i = 0; i < pages; i++) {
+    for (let i = 0; i < pages; i++) {
         options.push(<option value={i}>{i + 1}</option>)
     }
     return <div>Go to page <select onChange={e => goToPage(parseInt(e.target.value))}>{options}</select></div>
 }
 
-function Navigation({ activePage, goToPage, nextPage, prevPage, pages }) {
+function Navigation({activePage, goToPage, nextPage, prevPage, pages}) {
     return (
         <Flex>
-            <button disabled={activePage === 0} onClick={() => goToPage(0)}>
-                {"<<"}
-            </button>
+            {/*<button disabled={activePage === 0} onClick={() => goToPage(0)}>*/}
+            {/*    {"<<"}*/}
+            {/*</button>*/}
             <button disabled={activePage === 0} onClick={prevPage}>
                 {"<"}
             </button>
@@ -131,26 +139,26 @@ function Navigation({ activePage, goToPage, nextPage, prevPage, pages }) {
             <button disabled={activePage === pages - 1} onClick={nextPage}>
                 {">"}
             </button>
-            <button
-                disabled={activePage === pages - 1}
-                onClick={() => goToPage(pages - 1)}
-            >
-                {">>"}
-            </button>
+            {/*<button*/}
+            {/*    disabled={activePage === pages - 1}*/}
+            {/*    onClick={() => goToPage(pages - 1)}*/}
+            {/*>*/}
+            {/*    {">>"}*/}
+            {/*</button>*/}
         </Flex>
     );
 }
 
-function PageIndicator ({pages, activePage}) {
+function PageIndicator({pages, activePage}) {
     return <div>
         <b>{activePage + 1}</b> / {pages}
     </div>
 }
 
 const App = () => (
-    <div>
-        <MyTable />
+    <div className="wrapper">
+        <MyTable/>
     </div>
 );
 
-render(<App />, document.getElementById("root"));
+render(<App/>, document.getElementById("root"));

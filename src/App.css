@@ -42,7 +42,7 @@
     margin: 5em;
 }
 
-.wrapper-table {
+.wrapper-all {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -50,25 +50,27 @@
 
 .tbody {
     display: flex;
-    width: 100%;
     flex-direction: column;
 }
 
-.tr {
+.form-wrapper {
+    font-weight: bold;
+    font-size: 1.2em;
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    padding: 0.4em;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 0;
+}
+
+.pagination-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    flex: 1;
-    width: 100%;
 }
 
-tr:nth-child(2n) {
-    background: #f0f0f0; /* Цвет фона */
-}
 
-.tr > td {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    padding: 1em 0 1em 1em;
-}

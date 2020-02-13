@@ -1,8 +1,10 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
 import {render} from "react-dom";
 import Datasort from "react-data-sort";
 import tableData from "./data";
 import './App.css';
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function MyTable() {
@@ -24,8 +26,8 @@ function MyTable() {
                          pages
                      }) => {
                 return (
-                    <div className="wrapper-table container">
-                        <ul>
+                    <div className="wrapper-all container">
+                        <div className="wrapper-table row">
                             <TableHead
                                 setSortBy={setSortBy}
                                 sortBy={sortBy}
@@ -33,8 +35,8 @@ function MyTable() {
                                 toggleDirection={toggleDirection}
                             />
                             <TableBody data={data}/>
-                        </ul>
-                        <Flex style={{justifyContent: 'space-between'}}>
+                        </div>
+                        <Flex className="pagination-wrapper row">
                             <GoToPage goToPage={goToPage} pages={pages}/>
                             <PageIndicator pages={pages} activePage={activePage}/>
                             <Navigation
@@ -78,35 +80,45 @@ function TableHead({setSortBy, sortBy, direction, toggleDirection}) {
         );
     });
     return (
-        <div>
-        <tr>{items}</tr>
+        <div className="form-wrapper col-sm-2">
+            <div className="">{items}</div>
         </div>
     );
 }
 
 function HeadToggle({children, active, onClick}) {
     return (
-        <td
+        <div className="form"
             onClick={onClick}
             style={{fontWeight: active ? "bold" : "normal", cursor: "pointer"}}
         >
             {children}
-        </td>
+        </div>
     );
 }
 
 function TableBody({data}) {
     return (
-        <tbody className="tbody col-sm-9">
-        {data.map(({singer, song, ganre, year}) => (
-            <tr className="tr row">
-                <td className="col-3">{singer}</td>
-                <td className="col-3">{song}</td>
-                <td className="col-3">{ganre}</td>
-                <td className="col-3">{year}</td>
+        <table className="table table table-striped table-striped col-sm-10">
+            <thead  className="thead-dark">
+            <tr>
+                <th scope="col">Singer</th>
+                <th scope="col">Song</th>
+                <th scope="col">Ganre</th>
+                <th scope="col">Year</th>
             </tr>
-        ))}
-        </tbody>
+            </thead>
+            <tbody>
+            {data.map(({singer, song, ganre, year}) => (
+                <tr>
+                    <td>{singer}</td>
+                    <td>{song}</td>
+                    <td>{ganre}</td>
+                    <td>{year}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
     );
 }
 
